@@ -1,4 +1,4 @@
-const Service = require('./serviceModel');
+const Service = require('./servicesModel');
 const connectDB = require('./db');
 
 connectDB();
