@@ -1,34 +1,17 @@
-
-require('dotenv').config();
-
-// db.js
-
-require('dotenv').config();
-
-const mongoose = require('mongoose');
-
-const MONGO_URI = process.env.MONGO_URI;
-
-const connectDB = async () => {
-  try {
-    await mongoose.connect(MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      // Muut asetukset tarvittaessa
-    });
-    console.log('MongoDB connected!');
-  } catch (err) {
-    console.error('Error connecting to MongoDB:', err.message);
-    process.exit(1);
-  }
-};
-
-//yläpuolelle tehty koodi
+const connectDB = require("./config/db");
 const express = require("express");
 const error = require("./middleware/errorMiddleware");
 const found = require("./middleware/notFoundMiddleware");
 
+//dotenv
+const dotenv = require('dotenv');
+dotenv.config();
+
+
+//express app
 const app = express();
+connectDB();
+
 
 // Body Parser Middleware
 app.use(express.json());
@@ -47,6 +30,6 @@ app.use(express.json());
 
 app.use(found);
 
-const PORT = 5002;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
